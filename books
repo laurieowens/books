@@ -401,3 +401,19 @@ apiRouter.post("/user/signin", function(req, res) {
 // Routes
 // =============================================================
 module.exports = apiRouter;```
+
+🐙 John McSwain - Inst [6:13 PM] 
+@channel Good Evening! For those looking for a recap/rehash of Node :nodejs:, @benbowen is holding a workshop/session in Room 233, just past @ddye's Chick-fil-A table
+
+🐙 John McSwain - Inst [6:18 PM] 
+Good Evening! Make sure to mark yourself *PRESENT* in bootcampspot.com *AND* pull down the latest code from gt.bootcampcontent.com. Instructions are below :point_down:
+```git fetch --all
+git checkout upstream/master
+git checkout -b 16.2
+git push -u origin 16.2```
+
+Musa Siddeeq - Inst [6:29 PM] 
+https://alistapart.com/article/writing-testable-javascript
+A List Apart
+Writing Testable JavaScript
+As our JavaScript takes on more and more responsibilities, we need a reliable codebase—one that is thoroughly tested. Integration tests focus on how the pieces of an application work together, but don’t tell us whether individual units of functionality are behaving as expected. That’s where unit testing comes in. And we’ll have a hard time writing unit tests until we start writing testable JavaScript. Rebecca Murphey explains how to save time in the long run by writing cleaner application code and testing, testing, testing.
