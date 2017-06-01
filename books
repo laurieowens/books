@@ -24,3 +24,21 @@ Assertion Styles - Chai
 https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/now
 Musa Siddeeq - Inst [11:08 AM] 
 This is a classic book about UI design. Great guide for improving your "polish" points on your final project. The 2008 3rd edition is still applicable and available online for free at http://webstyleguide.com/wsg3/index.html
+Eric Fry [4:58 PM] 
+here's a very interesting interview by Ross Anderson (Professor of Security Engineering - University of Cambridge):
+https://www.edge.org/conversation/ross_anderson-the-threat (edited)
+
+Musa Siddeeq - Inst [5:20 PM] 
+commented on Stateless, secure, signed cookies recipe with JWT, Express-JWT, Expresss and JS-Cookie
+Updates have been made to the recipe and @monica has half the answers! Please reach out and get your updates and check out the commits 
+https://github.com/Monica1W/project2/commit/b63b60a9fa52496be1433f2538e76a1e0825731c
+https://github.com/Monica1W/project2/commit/c6e63aa860d44a9f4f41432401205cf2b9a7bb9b
+https://github.com/Monica1W/project2/commit/c94405641d0ab1c75fa7802ff8f0d5cb6dc67f4b
+https://github.com/Monica1W/project2/commit/d9d4860955fc0964b152110d420ddecf69631e39
+
+
+Musa Siddeeq - Inst [5:25 PM] 
+@rimjieun @seayport @c-marshall
+
+Musa Siddeeq - Inst [10:18 PM] 
+@seayport `npm install --save cookie-parser express-jwt jsonwebtoken`
