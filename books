@@ -42,3 +42,9 @@ Musa Siddeeq - Inst [5:25 PM]
 
 Musa Siddeeq - Inst [10:18 PM] 
 @seayport `npm install --save cookie-parser express-jwt jsonwebtoken`
+Eric Fry [3:52 PM] 
+https://auth0.com/blog/brute-forcing-hs256-is-possible-the-importance-of-using-strong-keys-to-sign-jwts/
+Auth0 - Blog
+Brute Forcing HS256 is Possible: The Importance of Using Strong Keys in Signing JWTs
+Cracking a JWT signed with weak keys is possible via brute force attacks. Learn how Auth0 protects against such attacks and alternative J...
+ 
