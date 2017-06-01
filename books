@@ -253,3 +253,151 @@ https://github.com/auth0/node-jsonwebtoken
 https://github.com/auth0/node-jsonwebtoken
  
 GitHub
+
+🐙 John McSwain - Inst [6:40 PM] 
+Nightmare
+https://github.com/segmentio/nightmare
+GitHub
+segmentio/nightmare
+nightmare - A high-level browser automation library.
+ 
+ 
+
+[6:45] 
+*Unit testing* is a software method by which individual units of source code 
+are tested to determine whether they are *fit for use*
+https://en.wikipedia.org/wiki/Unit_testing
+
+*Integration testing* is where individual software modules are combined and tested as a group
+https://en.wikipedia.org/wiki/Integration_testing
+
+*Functional testing* usually describes what the system is *supposed* to do, from the perspective of a user... aka user acceptance testing
+https://en.wikipedia.org/wiki/Functional_testing (edited)
+
+🐙 John McSwain - Inst [6:55 PM] 
+16.2 Solutions are now available via gt.bootcampcontent.com via `git fetch --all`
+
+🐙 John McSwain - Inst [7:03 PM] 
+https://devcenter.heroku.com/articles/github-integration
+devcenter.heroku.com
+GitHub Integration (Heroku GitHub Deploys) | Heroku Dev Center
+Heroku integrates with GitHub to make it easy to deploy code living on GitHub to apps running on Heroku
+ 
+
+[7:03] 
+:point_up: for those seeking superintelligence via speed :fast_forward:
+
+Lisa Hagin [7:05 PM] 
+heroku deploy
+1 reply 21 days ago View thread
+
+Lisa Hagin [7:08 PM] 
+file:///C:/Users/lhagi/Desktop/SequelizeHerokuDeploymentProcess.pdf
+
+
+----- May 13th -----
+🐙 John McSwain - Inst [9:52 AM] 
+Good Evening! Make sure to mark yourself *PRESENT* in bootcampspot.com *AND* pull down the latest code from gt.bootcampcontent.com. Instructions are below :point_down:
+```git fetch --all
+git checkout upstream/master
+git checkout -b 16.3
+git push -u origin 16.3```
+
+🐙 John McSwain - Inst [10:08 AM] 
+https://textexpander.com/
+TextExpander
+TextExpander – Productivity App | Text Expander
+TextExpander: Communicate Smarter. Gather, Perfect, Share Your Knowledge. Recall your best words instantly, repeatedly. (121kB)
+
+[10:08] 
+https://karma-runner.github.io/1.0/index.html
+
+Musa Siddeeq - Inst [10:34 AM] 
+user registration and authentication to your sequelize users table https://github.com/kelektiv/node.bcrypt.js#to-hash-a-password
+user authorization token https://github.com/auth0/node-jsonwebtoken#jwtsignpayload-secretorprivatekey-options-callback
+GitHub
+kelektiv/node.bcrypt.js
+node.bcrypt.js - bcrypt for NodeJs
+ 
+ GitHub
+auth0/node-jsonwebtoken
+node-jsonwebtoken - JsonWebToken implementation for node.js http://self-issued.info/docs/draft-ietf-oauth-json-web-token.html
+ 
+
+Usman Jamil
+[10:36 AM] 
+https://github.com/usmanjamil83/BlueSmokeMagicians
+GitHub
+usmanjamil83/BlueSmokeMagicians
+BlueSmokeMagicians - Blue Smoke Magicians
+ 
+
+Musa Siddeeq - Inst [11:44 AM] 
+```// *********************************************************************************
+// api-routes.js - this file offers a set of routes for displaying and saving data to the db
+// *********************************************************************************
+
+// Dependencies
+// =============================================================
+
+// Requiring our models
+var db = require("../models");
+var bcrypt = require('bcrypt');
+var express = require('express');
+var apiRouter = express.Router();
+
+var salt = '$2a$10$.zvkhL71NZo804bNdFdBae';
+
+apiRouter.get("/test", function(req, res) {
+  res.status(200).json({ 'message': 'Success'})
+});
+
+
+
+// POST route for creating a new user
+apiRouter.post("/user", function(req, res) {
+  bcrypt.hash(req.body.password, salt, function(err, hash) {
+    // Store hash in your password DB.
+    // TODO: update schema to enforce unique usernames
+    db.User.create({
+      username: req.body.username,
+      password: hash
+    })
+      .then(function(dbPost) {
+        res.status(200).json({'status': 'success'});
+      });
+  });
+
+});
+
+apiRouter.post("/user/signin", function(req, res) {
+  db.User.findOne({
+    username: req.body.username
+  })
+    .then(function(user) {
+      if (!user) {
+        console.log('no user found')
+        res.status(400).json({
+          'status' : 'Invalid username or password'
+        })
+      } else {
+        bcrypt.compare(req.body.password, user.password, function(err, valid) {
+          if (err || !valid) {
+            res.status(400).json({
+              'status' : 'Invalid username or password'
+            })
+          } else {
+            res.status(200).json({
+              id: user.id,
+              username: user.username
+            });
+          }
+        });
+      }
+
+    });
+});
+
+// Routes
+// =============================================================
+module.exports = apiRouter;```
