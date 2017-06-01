@@ -48,3 +48,208 @@ Auth0 - Blog
 Brute Forcing HS256 is Possible: The Importance of Using Strong Keys in Signing JWTs
 Cracking a JWT signed with weak keys is possible via brute force attacks. Learn how Auth0 protects against such attacks and alternative J...
  
+
+Welcome to Posts
+Tell me more I’ll figure it out
+ 
+Find in post
+ 
+Musa Siddeeq - Inst shared in gt-atl-instructions Unshare from #gt-atl-instructions
+Stateless, secure, signed cookies recipe with JWT, Express-JWT, Expresss and JS-Cookie
+TL;DR You need cookies and JWT because you have HTML and API routes. This is a recipe for implementing a secure app without sessions and backed by a RESTful API.
+TL;DR You need cookies and JWT because you have HTML and API routes. This is a recipe for implementing a secure app without sessions and backed by a RESTful API.
+npm install --save cookie-parser express-jwt jsonwebtoken 
+npm install --save cookie-parser express-jwt jsonwebtoken 
+SCENARIO: YOU HAVE AN APP WITH HTML +  API ROUTES
+SCENARIO: YOU HAVE AN APP WITH HTML +  API ROUTES
+SERVER-SIDE TASKS
+SERVER-SIDE TASKS
+GIVEN: A user database
+GIVEN: A user database
+WHEN: A user authenticates successfully
+WHEN: A user authenticates successfully
+THEN: create a cookie embeding JWT token
+THEN: create a cookie embeding JWT token
+THEN: redirect user to protected HTML route
+THEN: redirect user to protected HTML route
+const jwt = require('jsonwebtoken');
+const jwt = require('jsonwebtoken');
+const gtGroupSecret = process.env.GT_GROUP_SECRET || 'ImTooLazyToWriteMyOwnSecretEnvValue';
+const gtGroupSecret = process.env.GT_GROUP_SECRET || 'ImTooLazyToWriteMyOwnSecretEnvValue';
+app.use(cookieParser(gtGroupSecret));
+app.use(cookieParser(gtGroupSecret));
+app.post('/signin', function(req, res) {
+app.post('/signin', function(req, res) {
+    // find your user
+    // find your user
+    // bcrypt.compare password with passwordHash
+    // bcrypt.compare password with passwordHash
+    // everything checks out fine
+    // everything checks out fine
+    if (userVerified) {
+    if (userVerified) {
+        const oneHour = Math.floor(Date.now() / 1000) + (60 * 60);
+        const oneHour = Math.floor(Date.now() / 1000) + (60 * 60);
+        const payload = {
+        const payload = {
+            exp: oneHour,
+            exp: oneHour,
+            user: {
+            user: {
+                id: userId,
+                id: userId,
+                name: 'Musa'
+                name: 'Musa'
+            }
+            }
+        };
+        };
+        const jwtAuthToken = jwt.sign(payload, gtGroupSecret);
+        const jwtAuthToken = jwt.sign(payload, gtGroupSecret);
+        // Create a cookie embedding JWT token
+        // Create a cookie embedding JWT token
+        res.cookie('jwtAuthToken', jwtAuthToken, { 
+        res.cookie('jwtAuthToken', jwtAuthToken, { 
+            secure: process.env.NODE_ENV === 'production',
+            secure: process.env.NODE_ENV === 'production',
+            signed: true
+            signed: true
+        });
+        });
+        // redirect user to protected HTML route
+        // redirect user to protected HTML route
+        res.redirect('/protected/html/userprofile')
+        res.redirect('/protected/html/userprofile')
+    } else {
+    } else {
+        res.render('login')
+        res.render('login')
+    }
+    }
+});
+});
+GIVEN: A protected HTML route
+GIVEN: A protected HTML route
+WHEN: request is received
+WHEN: request is received
+THEN: verify authorization via cookie using express-jwt getToken
+THEN: verify authorization via cookie using express-jwt getToken
+THEN: send or render HTML page
+THEN: send or render HTML page
+const jwtExp = require('express-jwt');
+const jwtExp = require('express-jwt');
+// verify authorization via cookie using express-jwt
+// verify authorization via cookie using express-jwt
+app.use('/protected/html', jwtExp({
+app.use('/protected/html', jwtExp({
+    secret: gtGroupSecret,
+    secret: gtGroupSecret,
+    getToken: function fromCookie(req) {
+    getToken: function fromCookie(req) {
+        if (req.signedCookies) {
+        if (req.signedCookies) {
+            return req.signedCookies.jwtAuthToken;
+            return req.signedCookies.jwtAuthToken;
+        }
+        }
+        return null;
+        return null;
+    }
+    }
+}));
+}));
+app.get('/protected/html/userprofile', function(req, res) {
+app.get('/protected/html/userprofile', function(req, res) {
+// render HTML page
+// render HTML page
+// req.user contains your payload from jwtAuthToken
+// req.user contains your payload from jwtAuthToken
+    res.render('userprofile', { user: req.user });
+    res.render('userprofile', { user: req.user });
+});
+});
+GIVEN: A protected API route
+GIVEN: A protected API route
+WHEN: request is received
+WHEN: request is received
+THEN: verify authorization using express-jwt
+THEN: verify authorization using express-jwt
+THEN: send JSON data
+THEN: send JSON data
+const jwtExp = require('express-jwt');
+const jwtExp = require('express-jwt');
+// verify authorization using express-jwt 
+// verify authorization using express-jwt 
+app.use('/protected/api', jwtExp({ secret: gtGroupSecret }));
+app.use('/protected/api', jwtExp({ secret: gtGroupSecret }));
+app.get('/protected/api/data', function(req, res) {
+app.get('/protected/api/data', function(req, res) {
+// query your database
+// query your database
+// send json data
+// send json data
+    res.status(200).json({ data: data });
+    res.status(200).json({ data: data });
+});
+});
+NOTE: In all instances that authorization fails verification, you should expect/respond with an error and message and the frontend should provide information to user about failure.
+NOTE: In all instances that authorization fails verification, you should expect/respond with an error and message and the frontend should provide information to user about failure.
+CLIENT-SIDE TASKS
+CLIENT-SIDE TASKS
+GIVEN: A user on a protected HTML page
+GIVEN: A user on a protected HTML page
+WHEN: client sends an $.ajax request
+WHEN: client sends an $.ajax request
+THEN: client will send authorization header embedding JWT token Authorization: Bearer MYJWT.SIGNEDTOKEN.EXTRACTEDFROMCOOKIE
+THEN: client will send authorization header embedding JWT token Authorization: Bearer MYJWT.SIGNEDTOKEN.EXTRACTEDFROMCOOKIE
+<script src="/path/to/js.cookie.js"></script>
+<script src="/path/to/js.cookie.js"></script>
+<script>
+<script>
+$.ajax({
+$.ajax({
+    url: "/protected/api/data",
+    url: "/protected/api/data",
+    type: 'GET',
+    type: 'GET',
+    // send Authorization header
+    // send Authorization header
+// embedding jwtAuthToken from cookie
+// embedding jwtAuthToken from cookie
+    headers: {
+    headers: {
+        "Authorization": "Bearer " + Cookies.get('jwtAuthToken')
+        "Authorization": "Bearer " + Cookies.get('jwtAuthToken')
+    }
+    }
+}).done(function(data) {
+}).done(function(data) {
+console.log('protected data', data);
+console.log('protected data', data);
+});
+});
+</script>
+</script>
+REQUIRED BACKGROUND:
+REQUIRED BACKGROUND:
+https://codingbootcamp.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=b109c410-e542-42c8-8cd2-9489b8a4588a
+https://codingbootcamp.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=b109c410-e542-42c8-8cd2-9489b8a4588a
+ 
+Panopto
+Bcrypt, JWT, authentication, authorization
+https://github.com/mrmusa/userauth
+https://github.com/mrmusa/userauth
+ 
+GitHub
+mrmusa/userauth
+userauth - Stateless, secure, signed cookies recipe with JWT, Express-JWT, Expresss and JS-Cookie
+https://auth0.com/blog/cookies-vs-tokens-definitive-guide/
+https://auth0.com/blog/cookies-vs-tokens-definitive-guide/
+ 
+Auth0 - Blog
+Cookies vs Tokens: The Definitive Guide
+The cookie vs token debate favors token-based authentication. Learn the advantages and get answers to common concerns regarding token aut...
+https://github.com/auth0/node-jsonwebtoken
+https://github.com/auth0/node-jsonwebtoken
+ 
+GitHub
