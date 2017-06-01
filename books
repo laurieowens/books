@@ -417,3 +417,7 @@ https://alistapart.com/article/writing-testable-javascript
 A List Apart
 Writing Testable JavaScript
 As our JavaScript takes on more and more responsibilities, we need a reliable codebase—one that is thoroughly tested. Integration tests focus on how the pieces of an application work together, but don’t tell us whether individual units of functionality are behaving as expected. That’s where unit testing comes in. And we’ll have a hard time writing unit tests until we start writing testable JavaScript. Rebecca Murphey explains how to save time in the long run by writing cleaner application code and testing, testing, testing.
+git fetch --all
+git checkout upstream/master
+git checkout -b 18.2
+git push -u origin 18.2
